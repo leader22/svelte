@@ -2,7 +2,7 @@ import Renderer from '../../Renderer';
 import Element from '../../../nodes/Element';
 import Wrapper from '../shared/Wrapper';
 import Block from '../../Block';
-import { is_void } from '../../../../utils/names';
+import { is_void } from '../../../../../shared/utils/names';
 import FragmentWrapper from '../Fragment';
 import { escape_html, string_literal } from '../../../utils/stringify';
 import TextWrapper from '../Text';
@@ -279,6 +279,7 @@ export default class ElementWrapper extends Wrapper {
 
 		block.chunks.init.push(b`
 			${this.renderer.options.dev && b`@validate_dynamic_element(${tag});`}
+			${this.renderer.options.dev && this.node.children.length > 0 && b`@validate_void_dynamic_element(${tag});`}
 			let ${this.var} = ${tag} && ${this.child_dynamic_element_block.name}(#ctx);
 		`);
 
@@ -310,6 +311,7 @@ export default class ElementWrapper extends Wrapper {
 				} else if (${not_equal}(${previous_tag}, ${tag})) {
 					${this.var}.d(1);
 					${this.renderer.options.dev && b`@validate_dynamic_element(${tag});`}
+					${this.renderer.options.dev && this.node.children.length > 0 && b`@validate_void_dynamic_element(${tag});`}
 					${this.var} = ${this.child_dynamic_element_block.name}(#ctx);
 					${this.var}.c();
 					${this.var}.m(${this.get_update_mount_node(anchor)}, ${anchor});
@@ -750,7 +752,7 @@ export default class ElementWrapper extends Wrapper {
 			}
 		});
 
-		if (this.node.attributes.some(attr => attr.is_spread)) {
+		if (this.node.attributes.some(attr => attr.is_spread) || this.node.is_dynamic_element) {
 			this.add_spread_attributes(block);
 			return;
 		}
@@ -824,7 +826,7 @@ export default class ElementWrapper extends Wrapper {
 				(${data}.multiple ? @select_options : @select_option)(${this.var}, ${data}.value);
 			`);
 			block.chunks.update.push(b`
-				if (${block.renderer.dirty(Array.from(dependencies))} && 'value' in ${data}) (${data}.multiple ? @select_options : @select_option)(${this.var}, ${data}.value);;
+				if (${block.renderer.dirty(Array.from(dependencies))} && 'value' in ${data}) (${data}.multiple ? @select_options : @select_option)(${this.var}, ${data}.value);
 			`);
 		} else if (this.node.name === 'input' && this.attributes.find(attr => attr.node.name === 'value')) {
 			const type = this.node.get_static_attribute_value('type');
@@ -1046,11 +1048,14 @@ export default class ElementWrapper extends Wrapper {
 
 			block.chunks.hydrate.push(updater);
 
-			if (has_spread) {
+			if (has_spread || this.node.is_dynamic_element) {
 				block.chunks.update.push(updater);
 			} else if ((dependencies && dependencies.size > 0) || this.class_dependencies.length) {
 				const all_dependencies = this.class_dependencies.concat(...dependencies);
-				const condition = block.renderer.dirty(all_dependencies);
+				let condition = block.renderer.dirty(all_dependencies);
+				if (block.has_outros) {
+					condition = x`!#current || ${condition}`;
+				}
 
 				// If all of the dependencies are non-dynamic (don't get updated) then there is no reason
 				// to add an updater for this.

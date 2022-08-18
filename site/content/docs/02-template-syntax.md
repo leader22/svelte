@@ -465,16 +465,16 @@ The `{@const ...}` tag defines a local constant.
 
 ```sv
 <script>
-  export let boxes;
+	export let boxes;
 </script>
 
 {#each boxes as box}
-  {@const area = box.width * box.height}
+	{@const area = box.width * box.height}
 	{box.width} * {box.height} = {area}
 {/each}
 ```
 
-`{@const}` is only allowed as direct child of `{#each}`, `{:then}`, `{:catch}`, `<Component />` or `<svelte:fragment />`.
+`{@const}` is only allowed as direct child of `{#if}`, `{:else if}`, `{:else}`, `{#each}`, `{:then}`, `{:catch}`, `<Component />` or `<svelte:fragment />`.
 
 
 ### Element directives
@@ -627,7 +627,7 @@ On `<input>` elements with `type="file"`, you can use `bind:files` to get the [`
 
 ---
 
-`bind:` can be used together with `on:` directives. The order that they are defined in determines the value of the bound variable when the event handler is called.
+If you're using `bind:` directives together with `on:` directives, the order that they're defined in affects the value of the bound variable when the event handler is called.
 
 ```sv
 <script>
@@ -641,6 +641,7 @@ On `<input>` elements with `type="file"`, you can use `bind:files` to get the [`
 />
 ```
 
+Here we were binding to the value of a text input, which uses the `input` event. Bindings on other elements may use different events such as `change`.
 
 ##### Binding `<select>` value
 
@@ -1005,7 +1006,7 @@ Like actions, transitions can have parameters.
 ```sv
 {#if visible}
 	<div transition:fade="{{ duration: 2000 }}">
-		flies in, fades out over two seconds
+		fades in and out over two seconds
 	</div>
 {/if}
 ```
@@ -1641,6 +1642,8 @@ The only supported binding is `bind:this`, since the element type specific bindi
 
 If `this` has a nullish value, the element and its children will not be rendered.
 
+If `this` is the name of a void tag (e.g., `br`) and `<svelte:element>` has child elements, a runtime error will be thrown in development mode.
+
 ```sv
 <script>
 	let tag = 'div';
@@ -1663,7 +1666,7 @@ If `this` has a nullish value, the element and its children will not be rendered
 
 The `<svelte:window>` element allows you to add event listeners to the `window` object without worrying about removing them when the component is destroyed, or checking for the existence of `window` when server-side rendering.
 
-Unlike `<svelte:self>`, this element may only appear the top level of your component and must never be inside a block or element.
+Unlike `<svelte:self>`, this element may only appear at the top level of your component and must never be inside a block or element.
 
 ```sv
 <script>

@@ -2,15 +2,44 @@
 
 ## Unreleased
 
+* Add a11y warning `a11y-role-has-required-aria-props` which checks that elements with `role` attribute has all required attributes for that role. ([#5852](https://github.com/sveltejs/svelte/pull/5852))
+* Add a11y warning `aria-proptypes` which checks ARIA state and property values ([#6978](https://github.com/sveltejs/svelte/pull/6978))
+* Add a11y warning `a11y-no-abstract-role` which checks ARIA roles must be non-abstract ARIA role ([#6241](https://github.com/sveltejs/svelte/pull/6241))
+* Add a11y warning `a11y-no-interactive-element-to-noninteractive-role` which checks for noninteractive roles used on interactive elements ([#5955](https://github.com/sveltejs/svelte/pull/5955))
+* Remove of empty stylesheets created from transitions ([#4801](https://github.com/sveltejs/svelte/issues/4801), [#7164](https://github.com/sveltejs/svelte/issues/7164))
+* Disallow invalid CSS selectors starting with a combinator ([#7643](https://github.com/sveltejs/svelte/issues/7643))
+* Add `ComponentEvents` convenience type ([#7702](https://github.com/sveltejs/svelte/pull/7702))
+* Add `SveltePreprocessor` utility type ([#7742](https://github.com/sveltejs/svelte/pull/7742))
+* Handle arrow function on `<slot>` inside `<svelte:fragment>` ([#7485](https://github.com/sveltejs/svelte/issues/7485))
+* Use `Node.parentNode` instead of `Node.parentElement` for legacy browser support ([#7723](https://github.com/sveltejs/svelte/issues/7723))
+* Improve a11y `label-has-associated-control` check to recusively check for input control ([#5528](https://github.com/sveltejs/svelte/issues/5528))
+* Fix class directive updates after half way transition [#7764](https://github.com/sveltejs/svelte/issues/7764)
+
+## 3.49.0
+
+* Improve performance of string escaping during SSR ([#5701](https://github.com/sveltejs/svelte/pull/5701))
+* Add `ComponentType` and `ComponentProps` convenience types ([#6770](https://github.com/sveltejs/svelte/pull/6770))
+* Add support for CSS `@layer` ([#7504](https://github.com/sveltejs/svelte/issues/7504))
+* Export `CompileOptions` from `svelte/compiler` ([#7658](https://github.com/sveltejs/svelte/pull/7658))
+* Fix DOM-less components not being properly destroyed ([#7488](https://github.com/sveltejs/svelte/issues/7488))
+* Fix `class:` directive updates with `<svelte:element>` ([#7521](https://github.com/sveltejs/svelte/issues/7521), [#7571](https://github.com/sveltejs/svelte/issues/7571))
+* Harden attribute escaping during SSR ([#7530](https://github.com/sveltejs/svelte/pull/7530))
+
+## 3.48.0
+
+* Allow creating cancelable custom events with `createEventDispatcher` ([#4623](https://github.com/sveltejs/svelte/issues/4623))
+* Support `{@const}` tag in `{#if}` blocks [#7241](https://github.com/sveltejs/svelte/issues/7241)
 * Return the context object in `setContext` [#7427](https://github.com/sveltejs/svelte/issues/7427)
-* Fix `{@const}` tag not working inside Component when there's no `let:` [#7189](https://github.com/sveltejs/svelte/issues/7189)
-* Ignore comments in `{#each}` blocks when containing elements with `animate:` ([#3999](https://github.com/sveltejs/svelte/issues/3999))
-* Add a third parameter to the returned function of `createEventDispatcher` that allows passing an object of `{ cancelable: true }` to create a cancelable custom event. The returned function when called will also return a boolean depending on whether the event is cancelled ([#7064](https://github.com/sveltejs/svelte/pull/7064))
+* Allow comments inside `{#each}` blocks when using `animate:` ([#3999](https://github.com/sveltejs/svelte/issues/3999))
+* Fix `|local` transitions in `{#key}` blocks ([#5950](https://github.com/sveltejs/svelte/issues/5950))
+* Support svg namespace for `{@html}` ([#7002](https://github.com/sveltejs/svelte/issues/7002), [#7450](https://github.com/sveltejs/svelte/issues/7450))
+* Fix `{@const}` tag not working inside a component when there's no `let:` [#7189](https://github.com/sveltejs/svelte/issues/7189)
+* Remove extraneous leading newline inside `<pre>` and `<textarea>` ([#7264](https://github.com/sveltejs/svelte/issues/7264))
+* Fix erroneous setting of `textContent` for `<template>` elements ([#7297](https://github.com/sveltejs/svelte/pull/7297))
 * Fix value of `let:` bindings not updating in certain cases ([#7440](https://github.com/sveltejs/svelte/issues/7440))
-* Strip leading newline after `<pre>` and `<textarea>` ([#7264](https://github.com/sveltejs/svelte/issues/7264))
-* Fix local transition for `{#key}` block ([#5950](https://github.com/sveltejs/svelte/issues/5950))
-* Fix errorneous setting `textContent` for `<template>` element ([#7297](https://github.com/sveltejs/svelte/pull/7297))
-* Support svg namespace for `{@html}` ([#7450](https://github.com/sveltejs/svelte/issues/7450), [#7002](https://github.com/sveltejs/svelte/issues/7002))
+* Fix handling of void tags in `<svelte:element>` ([#7449](https://github.com/sveltejs/svelte/issues/7449))
+* Fix handling of boolean attributes in `<svelte:element>` ([#7478](https://github.com/sveltejs/svelte/issues/7478))
+* Add special style scoping handling of `[open]` selectors on `<dialog>` elements ([#7495](https://github.com/sveltejs/svelte/issues/7494))
 
 ## 3.47.0
 

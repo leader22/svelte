@@ -234,6 +234,10 @@ export default {
 		code: 'css-invalid-global-selector',
 		message: ':global(...) must contain a single selector'
 	},
+	css_invalid_selector: (selector: string) => ({
+		code: 'css-invalid-selector',
+		message: `Invalid selector "${selector}"`
+	}),
 	duplicate_animation: {
 		code: 'duplicate-animation',
 		message: "An element can only have one 'animate' directive"
@@ -260,7 +264,7 @@ export default {
 	},
 	invalid_const_placement: {
 		code: 'invalid-const-placement',
-		message: '{@const} must be the immediate child of {#each}, {:then}, {:catch}, <svelte:fragment> or <Component>'
+		message: '{@const} must be the immediate child of {#if}, {:else if}, {:else}, {#each}, {:then}, {:catch}, <svelte:fragment> or <Component>'
 	},
 	invalid_const_declaration: (name: string) => ({
 		code: 'invalid-const-declaration',

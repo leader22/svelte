@@ -87,6 +87,18 @@ Enforce img alt attribute does not contain the word image, picture, or photo. Sc
 
 ---
 
+### `a11y-incorrect-aria-attribute-type`
+
+Enforce that only the correct type of value is used for aria attributes. For example, `aria-hidden`
+should only receive a boolean.
+
+```sv
+<!-- A11y: The value of 'aria-hidden' must be exactly one of true or false -->
+<div aria-hidden="yes"/>
+```
+
+---
+
 ### `a11y-invalid-attribute`
 
 Enforce that attributes important for accessibility have a valid value. For example, `href` should not be empty, `'#'`, or `javascript:`.
@@ -227,6 +239,17 @@ Some HTML elements have default ARIA roles. Giving these elements an ARIA role t
 
 ---
 
+### `a11y-no-interactive-element-to-noninteractive-role`
+
+[WAI-ARIA](https://www.w3.org/TR/wai-aria-1.1/#usage_intro) roles should not be used to convert an interactive element to a non-interactive element. Non-interactive ARIA roles include `article`, `banner`, `complementary`, `img`, `listitem`, `main`, `region` and `tooltip`.
+
+```sv
+<!-- A11y: <textarea> cannot have role 'listitem' -->
+<textarea role="listitem" />
+```
+
+---
+
 ### `a11y-positive-tabindex`
 
 Avoid positive `tabindex` property values. This will move elements out of the expected tab order, creating a confusing experience for keyboard users.
@@ -234,6 +257,17 @@ Avoid positive `tabindex` property values. This will move elements out of the ex
 ```sv
 <!-- A11y: avoid tabindex values above zero -->
 <div tabindex='1'/>
+```
+
+---
+
+### `a11y-role-has-required-aria-props`
+
+Elements with ARIA roles must have all required attributes for that role.
+
+```sv
+<!-- A11y: A11y: Elements with the ARIA role "checkbox" must have the following attributes defined: "aria-checked" -->
+<span role="checkbox" aria-labelledby="foo" tabindex="0"></span>
 ```
 
 ---
